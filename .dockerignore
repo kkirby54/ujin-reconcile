@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# 테스트 및 개발
+tests/
+test_*.py
+*.pytest_cache/
+.coverage
+htmlcov/
+
+# 문서
+*.md
+!README.md
+docs/
+
+# 로그
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 빌드 아티팩트
+dist/
+build/
+*.egg-info/
+reconcile_proto.egg-info/
+
+# 임시 파일
+*.tmp
+*.bak
+*.swp

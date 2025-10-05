@@ -1,0 +1,375 @@
+/* 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 헤더 */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+/* 탭 메뉴 */
+.tab-menu {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.tab-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background: white;
+    color: #667eea;
+    border-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 탭 콘텐츠 */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* 메인 컨텐츠 */
+main {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+/* 파일 업로드 섹션 */
+.upload-section {
+    margin-bottom: 30px;
+}
+
+.file-input-group {
+    margin-bottom: 25px;
+}
+
+.file-label {
+    display: block;
+    cursor: pointer;
+}
+
+.file-input-box {
+    border: 3px dashed #e1e5e9;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: #fafbfc;
+}
+
+.file-input-box:hover {
+    border-color: #667eea;
+    background: #f8f9ff;
+    transform: translateY(-2px);
+}
+
+.file-input-box.dragover {
+    border-color: #667eea;
+    background: #f0f2ff;
+}
+
+.file-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.file-input-content h3 {
+    color: #2d3748;
+    margin-bottom: 8px;
+    font-size: 1.3rem;
+}
+
+.file-input-content p {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.file-input-box input[type="file"] {
+    display: none;
+}
+
+.file-name {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #667eea;
+    color: white;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.file-name.has-file {
+    background: #48bb78;
+}
+
+/* 제출 버튼 */
+.submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 18px 30px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+}
+
+.submit-btn:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+}
+
+/* 진행 상황 */
+.progress-section {
+    text-align: center;
+    padding: 40px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 4px;
+    animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes progress {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
+}
+
+.progress-text {
+    color: #4a5568;
+    font-size: 1.1rem;
+}
+
+/* 결과 섹션 */
+.result-section {
+    text-align: center;
+    padding: 40px;
+}
+
+.result-box {
+    background: #f7fafc;
+    border-radius: 15px;
+    padding: 30px;
+    border: 2px solid #e2e8f0;
+}
+
+.result-box h3 {
+    color: #2d3748;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+}
+
+.result-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(72, 187, 120, 0.4);
+}
+
+/* 오류 섹션 */
+.error-section {
+    text-align: center;
+    padding: 40px;
+}
+
+.error-box {
+    background: #fed7d7;
+    border: 2px solid #fc8181;
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.error-box h3 {
+    color: #c53030;
+    margin-bottom: 15px;
+}
+
+.error-box p {
+    color: #742a2a;
+    margin-bottom: 20px;
+}
+
+.retry-btn {
+    background: #e53e3e;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+    background: #c53030;
+    transform: translateY(-1px);
+}
+
+/* 푸터 */
+footer {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+.info-section h4 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.info-section ol {
+    padding-left: 20px;
+}
+
+.info-section li {
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    main {
+        padding: 25px;
+    }
+    
+    .file-input-box {
+        padding: 20px;
+    }
+    
+    .result-stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+}

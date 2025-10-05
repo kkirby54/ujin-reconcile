@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미수미지급금 대조 시스템</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>미수미지급금 대조 시스템</h1>
+            <p>ERP 미수미지급금과 은행 거래내역을 대조하여 전표를 생성합니다</p>
+            
+            <!-- 탭 메뉴 제거: 이제 한 번에 Upload_form.xlsx 생성 -->
+        </header>
+
+        <main>
+            <!-- 전표 대조 탭 -->
+            <div id="reconcile-tab" class="tab-content active">
+            <div class="upload-section">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="file-input-group">
+                        <label for="erpFile" class="file-label">
+                            <div class="file-input-box">
+                                <span class="file-icon">📊</span>
+                                <div class="file-input-content">
+                                    <h3>ERP 미수미지급금 파일</h3>
+                                    <p>필수 컬럼: 코드, 거래처명</p>
+                                    <input type="file" id="erpFile" name="erp" accept=".xlsx,.xls" required>
+                                    <span class="file-name">파일을 선택하세요</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="file-input-group">
+                        <label for="bankFile" class="file-label">
+                            <div class="file-input-box">
+                                <span class="file-icon">🏦</span>
+                                <div class="file-input-content">
+                                    <h3>은행 거래내역 파일</h3>
+                                    <p>파일 구조: 1~6행 메타데이터, 7행부터 데이터<br>
+                                    필수 컬럼: 거래일시, 입금액(원), 출금액(원), 보낸분/받는분</p>
+                                    <input type="file" id="bankFile" name="bank" accept=".xlsx,.xls,.csv" required>
+                                    <span class="file-name">파일을 선택하세요</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn" disabled>
+                        <span class="btn-text">전표 생성</span>
+                        <span class="btn-icon">⚡</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="progress-section" id="progressSection" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <p class="progress-text">처리 중입니다...</p>
+            </div>
+
+            <div class="result-section" id="resultSection" style="display: none;">
+                <div class="result-box">
+                    <h3>처리 완료!</h3>
+                    <div class="result-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="matchCount">0</span>
+                            <span class="stat-label">매칭 성공</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="unmatchCount">0</span>
+                            <span class="stat-label">매칭 실패</span>
+                        </div>
+                    </div>
+                    <button id="downloadBtn" class="download-btn">
+                        <span class="btn-icon">📥</span>
+                        <span class="btn-text">전표 다운로드</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="error-section" id="errorSection" style="display: none;">
+                <div class="error-box">
+                    <h3>오류 발생</h3>
+                    <p id="errorMessage"></p>
+                    <button onclick="resetForm()" class="retry-btn">다시 시도</button>
+                </div>
+            </div>
+            </div>
+            <!-- 전표 대조 탭 끝 -->
+        </main>
+
+        <footer>
+            <div class="info-section">
+                <h4>사용 방법</h4>
+                <ol>
+                    <li>ERP 미수미지급금 파일을 업로드하세요 (코드, 거래처명 컬럼 필요)</li>
+                    <li>은행 거래내역 파일을 업로드하세요 (1~6행 메타데이터, 7행부터 데이터)</li>
+                    <li>전표 생성 버튼을 클릭하세요</li>
+                    <li>완료 후 Upload_form.xlsx 형식의 전표 파일을 다운로드하세요</li>
+                </ol>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
