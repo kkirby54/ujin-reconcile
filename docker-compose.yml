@@ -4,8 +4,8 @@ services:
   web:
     build: .
     container_name: howmuch-reconcile
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     environment:
       - PYTHONUNBUFFERED=1
     restart: unless-stopped
@@ -31,3 +31,10 @@ services:
         reservations:
           cpus: '0.5'
           memory: 256M
+    networks:
+      - nginx-network
+
+networks:
+  nginx-network:
+    external: true
+    name: nginx-network

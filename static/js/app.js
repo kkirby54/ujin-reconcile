@@ -112,7 +112,7 @@ uploadForm.addEventListener('submit', async function(e) {
     showProgress();
     
     try {
-        const response = await fetch('/reconcile', {
+        const response = await fetch('./reconcile', {
             method: 'POST',
             body: formData
         });
