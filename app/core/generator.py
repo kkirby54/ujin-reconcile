@@ -37,18 +37,22 @@ def build_upload_form_workbook(matches, unmatched, template_path="Upload_form.xl
     # 데이터 입력 시작 행 (12행이 헤더이므로 13행부터)
     start_row = 13
     
-    # 매칭된 거래 데이터를 Upload_form 형식으로 변환하여 입력
+    # 매칭된 거래 데이터를 Upload_form 형식으로 변환하여 입력 (입금만 처리)
     sequence_number = 1
     for row_idx, match_row in enumerate(matches, start=start_row):
-        # 전표구분: 입금=2, 출금=1
-        voucher_type = 2 if match_row["type"] == "입금" else 1
+        # 입금만 처리
+        if match_row["type"] != "입금":
+            continue
+            
+        # 전표구분: 입금=2
+        voucher_type = 2
         
         # 금액 설정
         amount = match_row["amount"]
         
-        # 차변/대변 금액 설정
-        debit_amount = match_row["amount"] if match_row["type"] == "입금" else ""
-        credit_amount = match_row["amount"] if match_row["type"] == "출금" else ""
+        # 차변/대변 금액 설정 (입금이므로 차변에 금액)
+        debit_amount = match_row["amount"]
+        credit_amount = ""
         
         # Upload_form 컬럼 순서에 맞춰 데이터 입력
         row_data = [
@@ -84,8 +88,12 @@ def build_upload_form_workbook(matches, unmatched, template_path="Upload_form.xl
         ws_unmatched = template_wb.create_sheet("Unmatched")
         ws_unmatched.append(HEADERS_UNMATCHED)
     
-    # 매칭 실패한 거래 데이터 추가
+    # 매칭 실패한 거래 데이터 추가 (입금만 처리)
     for unmatched_row in unmatched:
+        # 입금만 추가
+        if unmatched_row["type"] != "입금":
+            continue
+            
         ws_unmatched.append([
             unmatched_row["date"],           # 거래일자
             unmatched_row["type"],           # 입출금구분

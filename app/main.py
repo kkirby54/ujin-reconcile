@@ -51,11 +51,15 @@ async def reconcile(erp: UploadFile = File(...), bank: UploadFile = File(...)):
             }
         )
     
-    # 매칭 처리
+    # 매칭 처리 (입금만 처리)
     matches = []
     unmatched = []
     
     for bank_row in bank_rows:
+        # 입금만 처리
+        if bank_row["type"] != "입금":
+            continue
+            
         # 유사도 기반 매칭 (80% 이상 임계값)
         partner_info, similarity = find_best_match(
             bank_row["counter_raw"], 
@@ -63,10 +67,8 @@ async def reconcile(erp: UploadFile = File(...), bank: UploadFile = File(...)):
             threshold=0.80
         )
         
-        # 매칭 조건 확인: 거래처 매칭, 입출금 구분, 유효한 날짜
-        if (partner_info and 
-            bank_row["type"] in ("입금", "출금") and 
-            bank_row["date"]):
+        # 매칭 조건 확인: 거래처 매칭, 유효한 날짜
+        if (partner_info and bank_row["date"]):
             
             # 매칭 성공: 전표 데이터에 추가 (유사도 정보 포함)
             match_data = {
