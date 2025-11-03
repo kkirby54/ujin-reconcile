@@ -263,6 +263,47 @@ def calculate_similarity(s1: str, s2: str) -> float:
     return max(korean_sim, basic_sim)
 
 
+def substring_matching(target: str, candidate: str, min_coverage: float = 0.80) -> float:
+    """
+    부분 문자열 매칭: 짧은 문자열이 긴 문자열에 포함되는지 확인
+    
+    Args:
+        target (str): 매칭할 대상 문자열 (보통 Bank 데이터)
+        candidate (str): 후보 문자열 (보통 ERP 데이터)
+        min_coverage (float): 최소 포함 비율 (0.0 ~ 1.0)
+        
+    Returns:
+        float: 포함 비율 기반 유사도 (0.0 ~ 1.0), 기준 미달 시 0.0
+    """
+    if not target or not candidate:
+        return 0.0
+    
+    # 정규화
+    norm_target = normalize_name(target)
+    norm_candidate = normalize_name(candidate)
+    
+    if not norm_target or not norm_candidate:
+        return 0.0
+    
+    # 짧은 문자열과 긴 문자열 구분
+    shorter = norm_target if len(norm_target) <= len(norm_candidate) else norm_candidate
+    longer = norm_candidate if len(norm_target) <= len(norm_candidate) else norm_target
+    
+    # 짧은 문자열이 긴 문자열에 완전히 포함되는 경우
+    if shorter in longer:
+        # 포함 비율 계산: 짧은 문자열 길이 / 긴 문자열 길이
+        coverage = len(shorter) / len(longer)
+        
+        # 최소 커버리지 기준 충족 시 높은 유사도 반환
+        if coverage >= min_coverage:
+            return 0.90  # 부분 매칭 성공 시 90% 유사도
+        else:
+            # 커버리지가 낮으면 포함 비율 자체를 유사도로 사용
+            return coverage * 0.9  # 최대 90%로 제한
+    
+    return 0.0
+
+
 def smart_matching(target: str, candidates: dict, threshold: float = 0.80) -> tuple:
     """
     단계별 스마트 매칭 (다양한 케이스 커버)
@@ -302,7 +343,22 @@ def smart_matching(target: str, candidates: dict, threshold: float = 0.80) -> tu
     if target_no_brackets_normalized in candidates:
         return candidates[target_no_brackets_normalized], 0.9  # 높은 유사도
     
-    # 4단계: 기본 유사도 매칭
+    # 4단계: 부분 문자열 매칭 (듀폰스페셜티머터리얼스코리아유한회사 - 듀폰스페셜티머터리얼)
+    best_substring_match = None
+    best_substring_similarity = 0.0
+    
+    for normalized_name, candidate_info in candidates.items():
+        substring_sim = substring_matching(target, candidate_info["name"], min_coverage=0.70)
+        
+        if substring_sim >= threshold and substring_sim > best_substring_similarity:
+            best_substring_match = candidate_info
+            best_substring_similarity = substring_sim
+    
+    # 부분 문자열 매칭 성공 시 바로 반환
+    if best_substring_match and best_substring_similarity >= threshold:
+        return best_substring_match, best_substring_similarity
+    
+    # 5단계: 기본 유사도 매칭
     best_match = None
     best_similarity = 0.0
     
