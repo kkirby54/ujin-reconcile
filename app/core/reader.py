@@ -42,17 +42,38 @@ def read_erp(path_or_file):
         raise ValueError("ERP 파일에 '코드','거래처명' 컬럼이 없습니다.")
     
     # 필요한 컬럼만 선택하고 빈 행 제거
-    df = df[["코드", "거래처명"]].dropna()
+    columns_to_use = ["코드", "거래처명"]
+    has_representative = "대표자" in df.columns
+    if has_representative:
+        columns_to_use.append("대표자")
+    df = df[columns_to_use].dropna(subset=["코드", "거래처명"])
     
     # 정규화된 거래처명으로 매핑 딕셔너리 생성
     mapping = {}
     for _, row in df.iterrows():
+        partner_info = {
+            "code": str(row["코드"]).strip(),
+            "name": str(row["거래처명"]).strip()
+        }
+        
         normalized_name = normalize_name(row["거래처명"])
         if normalized_name:
-            mapping[normalized_name] = {
-                "code": str(row["코드"]).strip(),
-                "name": str(row["거래처명"]).strip()
-            }
+            mapping[normalized_name] = partner_info
+        
+        # 대표자명을 추가 키로 매핑 (은행 거래명세에 대표자명이 등장하는 경우 대비)
+        if has_representative:
+            representative_value = row["대표자"]
+            if pd.notna(representative_value):
+                representative_str = str(representative_value).strip()
+                representative_norm = normalize_name(representative_str)
+                
+                if representative_norm and representative_norm not in mapping:
+                    alias_entry = partner_info.copy()
+                    alias_entry.update({
+                        "match_source": "대표자",
+                        "alias": representative_str
+                    })
+                    mapping[representative_norm] = alias_entry
     
     return mapping
 
