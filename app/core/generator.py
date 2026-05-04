@@ -11,14 +11,14 @@ HEADERS_UNMATCHED = [
     "거래일자", "입출금구분", "금액", "보낸분/받는분", "메모", "사유"
 ]
 
-# Upload_form.xlsx의 컬럼 순서 (12행 헤더 기준)
+# upload_form_2026.xlsx의 컬럼 순서 (12행 헤더 기준)
 UPLOAD_FORM_COLUMNS = [
     '순번', '거래일', '전표구분', '코드', '거래처명', '적요', '결제장부', '금액',
-    '차변계정코드', '차변금액', '대변계정코드', '대변금액', '메모', '프로젝트', '은행코드'
+    '차변계정코드', '차변금액', '대변계정코드', '대변금액', '메모', '프로젝트', '부서', '은행코드'
 ]
 
 
-def build_upload_form_workbook(matches, unmatched, template_path="Upload_form.xlsx"):
+def build_upload_form_workbook(matches, unmatched, template_path="upload_form_2026.xlsx"):
     """
     매칭된 전표 데이터를 Upload_form.xlsx 형식으로 직접 생성
     
@@ -70,6 +70,7 @@ def build_upload_form_workbook(matches, unmatched, template_path="Upload_form.xl
             credit_amount,                # 대변금액
             match_row["memo"],            # 메모
             "",                           # 프로젝트
+            "",                           # 부서
             ""                            # 은행코드
         ]
         

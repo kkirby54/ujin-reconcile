@@ -83,7 +83,7 @@ async def reconcile(erp: UploadFile = File(...), bank: UploadFile = File(...)):
     
     # Upload_form.xlsx 형식으로 엑셀 파일 생성
     try:
-        template_path = "Upload_form.xlsx"
+        template_path = "upload_form_2026.xlsx"
         excel_buffer = build_upload_form_workbook(matches, unmatched, template_path)
     except Exception as e:
         raise HTTPException(
