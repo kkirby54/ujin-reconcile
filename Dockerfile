@@ -31,6 +31,7 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 COPY app ./app
 COPY static ./static
 COPY Upload_form.xlsx ./
+COPY upload_form_2026.xlsx ./
 
 # 비root 사용자 생성 및 권한 설정 (보안)
 RUN useradd -m -u 1000 appuser && \
